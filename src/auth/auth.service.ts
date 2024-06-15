@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { SignUpAuthDto } from './dto/sign-up-auth.dto';
 import { SignInAuthDto } from './dto/sign-in-auth.dto';
-import { User } from './schemas/auth.schema';
+import { User } from '../schemas/auth.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';

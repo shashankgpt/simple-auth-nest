@@ -4,6 +4,7 @@ import {
   Body,
   ValidationPipe,
   BadRequestException,
+  HttpCode,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpAuthDto } from './dto/sign-up-auth.dto';
@@ -18,6 +19,7 @@ export class AuthController {
     return this.authService.signUp(createAuthDto);
   }
 
+  @HttpCode(200)
   @Post('signin')
   async signIn(@Body(new ValidationPipe()) signInAuthDto: SignInAuthDto) {
     try {
