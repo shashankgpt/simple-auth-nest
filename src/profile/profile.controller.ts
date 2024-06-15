@@ -4,11 +4,11 @@ import { JwtAuthGuard } from '../jwt/jwt-auth.guard';
 
 @Controller('profile')
 export class ProfileController {
-    constructor(private readonly profileService: ProfileService) {}
+  constructor(private readonly profileService: ProfileService) {}
 
-    @UseGuards(JwtAuthGuard)
-    @Get('me')
-    getProfile(@Request() req) {
-        return this.profileService.getProfile(req.user.userId);
-    }
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  getProfile(@Request() req) {
+    return this.profileService.getProfile(req.user.userId);
+  }
 }

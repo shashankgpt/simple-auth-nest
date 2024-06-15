@@ -18,14 +18,20 @@ export class AuthService {
   async signUp(signUpAuthDto: SignUpAuthDto) {
     signUpAuthDto.password = await this.hashService.hashPassword(
       signUpAuthDto.password,
-    )
+    );
     const user = new this.userModel(signUpAuthDto);
     return (await user.save())._id;
   }
 
   async signIn(signInAuthDto: SignInAuthDto) {
     const user = await this.userModel.findOne({ email: signInAuthDto.email });
-    if (user && !(await this.hashService.comparePassword(signInAuthDto.password, user.password))) {
+    if (
+      user &&
+      !(await this.hashService.comparePassword(
+        signInAuthDto.password,
+        user.password,
+      ))
+    ) {
       throw new Error('Invalid credentials');
     }
     return {

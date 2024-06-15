@@ -8,13 +8,13 @@ import { jwtConstants } from './constants';
 import { HashService } from 'src/hash/hash.service';
 
 @Module({
-  imports:[
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]), 
+  imports: [
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '3600s' },
     }),
-],
+  ],
   controllers: [AuthController],
   providers: [AuthService, HashService],
 })
