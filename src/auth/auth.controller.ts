@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ValidationPipe,
+  BadRequestException,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpAuthDto } from './dto/sign-up-auth.dto';
 import { SignInAuthDto } from './dto/sign-in-auth.dto';
@@ -13,7 +23,12 @@ export class AuthController {
   }
 
   @Post('signin')
-  signIn(@Body(new ValidationPipe()) signInAuthDto: SignInAuthDto) {
-    return this.authService.signIn(signInAuthDto);
+  async signIn(@Body(new ValidationPipe()) signInAuthDto: SignInAuthDto) {
+    try {
+      return await this.authService.signIn(signInAuthDto);
+    } catch (error) {
+      if (error.message === 'Invalid credentials')
+        throw new BadRequestException('Invalid credentials');
+    }
   }
 }
