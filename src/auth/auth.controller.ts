@@ -9,14 +9,21 @@ import {
 import { AuthService } from './auth.service';
 import { SignUpAuthDto } from './dto/sign-up-auth.dto';
 import { SignInAuthDto } from './dto/sign-in-auth.dto';
+import { LoggerService } from 'src/logger/logger.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private readonly loggerService: LoggerService) {}
 
   @Post('signup')
-  signUp(@Body(new ValidationPipe()) createAuthDto: SignUpAuthDto) {
-    return this.authService.signUp(createAuthDto);
+  async signUp(@Body(new ValidationPipe()) createAuthDto: SignUpAuthDto) {
+    try {
+      return await this.authService.signUp(createAuthDto);
+    } catch (error) {
+      this.loggerService.logError(error);
+      if (error.message === 'Email already exists')
+        throw new BadRequestException('Email already exists');
+    }
   }
 
   @HttpCode(200)
@@ -25,6 +32,7 @@ export class AuthController {
     try {
       return await this.authService.signIn(signInAuthDto);
     } catch (error) {
+      this.loggerService.logError(error);
       if (error.message === 'Invalid credentials')
         throw new BadRequestException('Invalid credentials');
     }
