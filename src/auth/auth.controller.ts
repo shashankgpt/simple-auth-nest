@@ -13,7 +13,10 @@ import { LoggerService } from 'src/logger/logger.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService, private readonly loggerService: LoggerService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly loggerService: LoggerService,
+  ) {}
 
   @Post('signup')
   async signUp(@Body(new ValidationPipe()) createAuthDto: SignUpAuthDto) {

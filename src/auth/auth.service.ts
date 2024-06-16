@@ -6,7 +6,6 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { HashService } from 'src/hash/hash.service';
-import { LoggerService } from 'src/logger/logger.service';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +16,9 @@ export class AuthService {
   ) {}
 
   async signUp(signUpAuthDto: SignUpAuthDto) {
-    const emailExists = await this.userModel.findOne({ email: signUpAuthDto.email });
+    const emailExists = await this.userModel.findOne({
+      email: signUpAuthDto.email,
+    });
     if (emailExists) {
       throw new Error('Email already exists');
     }
